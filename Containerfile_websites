@@ -1,0 +1,15 @@
+# Base image with fedora httpd
+FROM fedora:latest AS base
+RUN dnf -y upgrade && dnf -y install httpd
+EXPOSE 80
+ENTRYPOINT ["httpd", "-D", "FOREGROUND"]
+
+# Website1 image
+FROM base AS Website1
+LABEL website=1
+COPY website1.html /var/www/html/index.html
+
+# Website2 image
+FROM base AS Website2
+LABEL website=2
+COPY website2.html /var/www/html/index.html
